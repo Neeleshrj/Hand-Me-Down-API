@@ -36,6 +36,13 @@ const userSchema = new mongoose.Schema({
     tasksPosted: {
         type: [Schema.Types.ObjectId],
         ref: 'tasks',
+    },
+    tasksAccepted: {
+        type: [Schema.Types.ObjectId],
+        ref: 'tasks',
+    },
+    transanctionHistory: {
+        type: String,
     }
 });
 
