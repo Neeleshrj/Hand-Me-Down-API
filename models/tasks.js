@@ -12,6 +12,9 @@ const taskSchema = new mongoose.Schema({
         min: 10,
         max: 2000,
     },
+    image: {
+        type: Image
+    },
     postUser: {
         type: Schema.Types.ObjectId,
         ref: 'User',

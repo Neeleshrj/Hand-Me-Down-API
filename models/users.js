@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const {validate} = require('./helper/index')
-
+const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
     fullname: {

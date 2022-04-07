@@ -50,12 +50,17 @@ function validateUser(user) {
         phoneNumber: Joi
             .number()
             .min(10)
-            .max(10)
             .messages({
                 'string.empty': 'Phone Number cannot be empty',
                 'string.base': 'Phone Number should be number',
                 'string.min': 'Invalid Phone Number',
-                'string.max': 'Invalid Phone Number',
+            }),
+        publicKey: Joi
+            .string()
+            .required()
+            .messages({
+                'string.empty': 'Public Key cannot be empty',
+                'string.base': 'Public key should be a string'
             })
     });
     
