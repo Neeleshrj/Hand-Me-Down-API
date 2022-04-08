@@ -1,3 +1,4 @@
+const { boolean } = require('joi');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -29,6 +30,9 @@ const taskSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    completed: {
+        type: Boolean,
+    }
 })
 
 const TaskModel =  mongoose.model('Tasks', taskSchema);
