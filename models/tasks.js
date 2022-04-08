@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const taskSchema = new mongoose.Schema({
     taskTitle: {
@@ -13,7 +14,7 @@ const taskSchema = new mongoose.Schema({
         max: 2000,
     },
     image: {
-        type: Image
+        type: String,
     },
     postUser: {
         type: Schema.Types.ObjectId,
@@ -23,7 +24,6 @@ const taskSchema = new mongoose.Schema({
     acceptUser: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
     },
     payout: {
         type: Number,

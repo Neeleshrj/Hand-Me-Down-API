@@ -15,15 +15,11 @@ function validateTask(tasks){
             .messages({
                 'string.empty': 'Task Description cannot be empty'
             }),
-        postUser: Joi
+        payout: Joi
+            .string()
             .required()
             .messages({
-                'any.required': 'Post User is required'
-            }),
-        acceptUser: Joi
-            .required()
-            .messages({
-                'any.required': 'Accept User required'
+                'string.empty': 'Payout value is required'
             })
     });
 

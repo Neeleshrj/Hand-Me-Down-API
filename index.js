@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config("./env");
 
 const auth = require("./routes/auth");
+const postTask = require('./routes/tasks');
 
 const mongoose = require("mongoose");
 const app=express();
@@ -22,6 +23,7 @@ mongoose
 
 app.use(express.json());
 app.use('/api/auth', auth);
+app.use('/api/tasks', postTask);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => console.log(`port ${port}`));

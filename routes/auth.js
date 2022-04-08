@@ -4,10 +4,11 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { validate } = require('../models/helper/userValidate');
+const { validateLogin } = require('../models/helper/loginValidate');
 
 const router = express.Router();
 
-router.post('/',async(req,res) => {
+router.post('/register',async(req,res) => {
     const {error} = validate(req.body);
     if(error) return res.status(400).json({
         error: error.details[0].message
@@ -31,6 +32,37 @@ router.post('/',async(req,res) => {
     res.json({
         status: '200'
     }).send();
+});
+
+router.post('/login', async(req,res) => {
+    const {error} = validateLogin(req.body);
+    if (error) return res.status(400).json(
+        {
+            error: error.details[0].message
+        }
+    ).send();
+
+    let user = await UserModel.findOne({phoneNumber: req.body.phoneNumber})
+    if (!user) return res.status(400).json(
+        {
+            error: 'Invalid phone number or password!'
+        }
+    ).send();
+
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).json(
+        {
+            error: 'Invalid phone number or password!'
+        }
+    ).send();
+
+    const token = user.generateAuthToken();
+    res.json({
+        user_id: user._id,
+        status: 200,
+        authToken: token, 
+    }).send();
+    
 })
 
 module.exports =  router;
