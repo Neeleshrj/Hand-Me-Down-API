@@ -1,5 +1,6 @@
 const express = require("express");
 const { TaskModel } = require("../models/tasks");
+const { UserModel } = require("../models/users");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const { validate } = require("../models/helper/taskValidate");
@@ -26,9 +27,12 @@ router.post("/:id", verification, async (req, res) => {
     completed: false
   });
 
-  console.log(task);
+  let user = await UserModel.findById(req.params.id);
 
-  await task.save();
+  await task.save(async (err,res) => {
+    user.tasksPosted.push(res.id);
+    await user.save();
+  });
   res
     .json({
       status: "200",

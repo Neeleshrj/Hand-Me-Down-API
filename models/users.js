@@ -43,11 +43,13 @@ const userSchema = new mongoose.Schema({
     },
     transanctionHistory: {
         type: String,
+    },
+    totalIncome: {
+        type: Number,
     }
 });
 
 userSchema.methods.generateAuthToken = function () {
-    console.log(process.env.jwtPrivateKey);
     return jwt.sign( { _id: this._id}, process.env.jwtPrivateKey);
 }
 
