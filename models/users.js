@@ -41,6 +41,9 @@ const userSchema = new mongoose.Schema({
         type: [Schema.Types.ObjectId],
         ref: 'tasks',
     },
+    tasksCompleted: {
+        type: Number,
+    },
     transanctionHistory: {
         type: String,
     },

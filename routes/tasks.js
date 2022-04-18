@@ -24,12 +24,14 @@ router.post("/:id", verification, async (req, res) => {
     postUser: req.params.id,
     payout: req.body.payout,
     image: req.body.image,
-    completed: false
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    completed: false,
   });
 
   let user = await UserModel.findById(req.params.id);
 
-  await task.save(async (err,res) => {
+  await task.save(async (err, res) => {
     user.tasksPosted.push(res.id);
     await user.save();
   });
@@ -56,8 +58,13 @@ router.put("/accept/:id/:userId", verification, async (req, res) => {
   if (!task) return res.status(400).send("Task does not exist!");
 
   task.acceptUser = req.params.userId;
-  await task.save();
 
+  let user = await UserModel.findById(req.params.userId);
+
+  await task.save(async (err, res) => {
+    user.tasksAccepted.push(res.id);
+    await user.save();
+  });
   res
     .json({
       status: "200",
@@ -93,19 +100,26 @@ router.delete("/delete/:id", verification, async (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.put("/completed/:id", verification, async (req, res) => {
-  let task = await TaskModel.findOne({ _id: req.params.id });
-  if (!task) return res.status(400).send("Task does not exist!");
+router.put("/completed/:id/:usedId", verification, async (req, res) => {
+  try {
+    let task = await TaskModel.findById(req.params.id);
+    if (!task) return res.status(400).send("Task does not exist!");
 
-  task.completed = true;
-  await task.save();
+    task.completed = true;
 
-  res
-    .json({
-      status: "200",
-      message: "Task Marked Completed",
-    })
-    .send();
+    await UserModel.findOneAndUpdate(req.params.usedId,{$inc: {tasksCompleted: 1}});
+
+    await task.save();
+
+    res
+      .json({
+        status: "200",
+        message: "Task Marked Completed",
+      })
+      .send();
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 module.exports = router;

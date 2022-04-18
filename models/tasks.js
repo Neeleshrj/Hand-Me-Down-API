@@ -1,4 +1,4 @@
-const { boolean } = require('joi');
+const { boolean, required } = require('joi');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -13,6 +13,14 @@ const taskSchema = new mongoose.Schema({
         required: true,
         min: 10,
         max: 2000,
+    },
+    latitude: {
+        type: String,
+        required: true,
+    },
+    longitude: {
+        type: String,
+        required: true,
     },
     image: {
         type: String,

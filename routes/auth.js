@@ -35,7 +35,6 @@ router.post("/register", async (req, res) => {
       "fullname",
       "email",
       "password",
-      "publicKey",
     ])
   );
 
