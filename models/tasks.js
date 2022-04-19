@@ -16,11 +16,9 @@ const taskSchema = new mongoose.Schema({
     },
     latitude: {
         type: String,
-        required: true,
     },
     longitude: {
         type: String,
-        required: true,
     },
     image: {
         type: String,
