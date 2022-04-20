@@ -55,6 +55,10 @@ function validateUser(user) {
                 'string.base': 'Phone Number should be number',
                 'string.min': 'Invalid Phone Number',
             }),
+        tasksCompleted: Joi
+            .number(),
+        totalIncome: Joi
+            .number()
     });
     
     return schema.validate(user);
