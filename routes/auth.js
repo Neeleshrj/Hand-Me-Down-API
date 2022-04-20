@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
   await user.save();
   res
     .json({
-      status: "200",
+      status: 200,
     })
     .send();
 });

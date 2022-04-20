@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config("./env");
+const bodyParser  = require('body-parser');
 
 const auth = require("./routes/auth");
 const postTask = require('./routes/tasks');
@@ -22,6 +23,8 @@ mongoose
   .then(() => console.log("Connected to DB."))
   .catch((err) => console.error(err));
 
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.json());
 app.use('/api/auth', auth);
 app.use('/api/userInfo', userInfo)

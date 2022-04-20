@@ -46,4 +46,17 @@ router.get("/activeJobs/:id", verification, async (req, res) => {
   }
 });
 
+router.get("/name/:id", verification, async (req, res) => {
+  try {
+    let user = await UserModel.findById(req.params.id);
+    res
+      .json({
+        name: user.fullname,
+      })
+      .send();
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 module.exports = router;

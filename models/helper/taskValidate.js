@@ -12,6 +12,7 @@ function validateTask(tasks){
         description: Joi
             .string()
             .max(1000)
+            .required()
             .messages({
                 'string.empty': 'Task Description cannot be empty'
             }),
@@ -20,7 +21,11 @@ function validateTask(tasks){
             .required()
             .messages({
                 'string.empty': 'Payout value is required'
-            })
+            }),
+        location: Joi
+            .object(),
+        image: Joi
+            .string()
     });
 
     return schema.validate(tasks);

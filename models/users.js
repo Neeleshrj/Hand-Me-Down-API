@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
     },
     publicKey: {
         type: String,
-        required: true,
     },
     tasksPosted: {
         type: [Schema.Types.ObjectId],

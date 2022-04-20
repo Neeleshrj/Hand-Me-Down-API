@@ -25,8 +25,7 @@ router.post("/:id", verification, async (req, res) => {
       postUser: req.params.id,
       payout: req.body.payout,
       image: req.body.image,
-      latitude: req.body.latitude,
-      longitude: req.body.longitude,
+      location: req.body.location,
       completed: false,
     });
 
@@ -42,7 +41,7 @@ router.post("/:id", verification, async (req, res) => {
 
     res
       .json({
-        status: "200",
+        status: 200,
         message: "Task Added!",
       })
       .send();
@@ -59,6 +58,32 @@ router.get("/all/:id", verification, async (req, res) => {
   });
   if (!taskList) return res.status(400).send("No Tasks!");
   return res.send(taskList);
+});
+
+router.get("/all/posted/:id", verification, async (req, res) => {
+  try {
+    let taskList = await TaskModel.find({
+      postUser: req.params.id,
+      completed: false
+    });
+    if (!taskList) return res.status(400).send("No Tasks!");
+    return res.send(taskList);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.get("/all/completed/:id", verification, async (req, res) => {
+  try {
+    let taskList = await TaskModel.find({
+      postUser: req.params.id,
+      completed: true
+    });
+    if (!taskList) return res.status(400).send("No Tasks!");
+    return res.send(taskList);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.put("/accept/:id/:userId", verification, async (req, res) => {
@@ -79,7 +104,7 @@ router.put("/accept/:id/:userId", verification, async (req, res) => {
       .catch((e) => console.log(e));
     res
       .json({
-        status: "200",
+        status: 200,
         message: "Task Accepted",
       })
       .send();
@@ -89,18 +114,22 @@ router.put("/accept/:id/:userId", verification, async (req, res) => {
 });
 
 router.put("/forfeit/:id", verification, async (req, res) => {
-  let task = await TaskModel.findOne({ _id: req.params.id });
-  if (!task) return res.status(400).send("Task does not exist!");
+  try {
+    let task = await TaskModel.findById(req.params.id);
+    if (!task) return res.status(400).send("Task does not exist!");
 
-  task.acceptUser = null;
-  await task.save();
+    task.acceptUser = null;
+    await task.save();
 
-  res
-    .json({
-      status: "200",
-      message: "Task Forfeited",
-    })
-    .send();
+    res
+      .json({
+        status: 200,
+        message: "Task Forfeited",
+      })
+      .send();
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.delete("/delete/:id", verification, async (req, res) => {
@@ -108,6 +137,7 @@ router.delete("/delete/:id", verification, async (req, res) => {
     .then(() => {
       res
         .json({
+          status: 200,
           message: "Task Deleted",
         })
         .send();
@@ -130,7 +160,7 @@ router.put("/completed/:id/:userId", verification, async (req, res) => {
 
     res
       .json({
-        status: "200",
+        status: 200,
         message: "Task Marked Completed",
       })
       .send();

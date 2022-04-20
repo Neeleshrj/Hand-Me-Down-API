@@ -55,13 +55,6 @@ function validateUser(user) {
                 'string.base': 'Phone Number should be number',
                 'string.min': 'Invalid Phone Number',
             }),
-        publicKey: Joi
-            .string()
-            .required()
-            .messages({
-                'string.empty': 'Public Key cannot be empty',
-                'string.base': 'Public key should be a string'
-            })
     });
     
     return schema.validate(user);
